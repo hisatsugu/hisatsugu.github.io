@@ -1,4 +1,4 @@
-name: cron sample
+name: cron every 15 minute
 on:
   schedule:
     - cron: '*/15 * * * *'
