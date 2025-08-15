@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>パブロフ流でみんな合格 日商簿記3級 テキスト＆問題集 2024年度版</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@700;800&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* 基本フォント設定 */
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        /* 各デザインパターンのためのカスタムスタイル */
+
+        /* --- Pattern 1: ポップ&エネルギッシュ --- */
+        #pattern1 {
+            --bg-color: #fffae1;
+            --main-color: #ff477e;
+            --accent-color: #ffc107;
+            --text-color: #333;
+            font-family: 'M PLUS Rounded 1c', sans-serif;
+            background-color: var(--bg-color);
+            background-image: radial-gradient(var(--accent-color) 1px, transparent 1px), radial-gradient(var(--accent-color) 1px, var(--bg-color) 1px);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+            overflow: hidden;
+        }
+        #pattern1 .pop-in {
+            opacity: 0;
+            transform: scale(0.5) translateY(50px);
+            transition: opacity 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        #pattern1 .is-visible {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+        #pattern1 .book-image {
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(-3deg); }
+            50% { transform: translateY(-15px) rotate(3deg); }
+        }
+
+        /* --- Pattern 2: クリーン&信頼感 --- */
+        #pattern2 {
+            --bg-color: #f0f8ff;
+            --main-color: #005bac;
+            --accent-color: #ffc107;
+            --text-color: #2c3e50;
+            background-color: var(--bg-color);
+        }
+        #pattern2 .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        #pattern2 .is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        #pattern2 .feature-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        #pattern2 .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px -5px rgba(0, 91, 172, 0.15);
+        }
+
+        /* --- Pattern 3: キュート&イラスト風 --- */
+        #pattern3 {
+            --bg-color: #fff9f9;
+            --main-color: #f472b6;
+            --accent-color: #a7f3d0;
+            --text-color: #574545;
+            background-color: var(--bg-color);
+            position: relative;
+        }
+        #pattern3::before {
+            content: '🐾';
+            position: absolute;
+            top: 10%;
+            left: 5%;
+            font-size: 3rem;
+            opacity: 0.2;
+            transform: rotate(-15deg);
+        }
+        #pattern3::after {
+            content: '🐾';
+            position: absolute;
+            bottom: 15%;
+            right: 5%;
+            font-size: 4rem;
+            opacity: 0.2;
+            transform: rotate(20deg);
+        }
+        #pattern3 .slide-in-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+        }
+        #pattern3 .slide-in-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+        }
+        #pattern3 .is-visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        #pattern3 .book-image {
+             filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+             transition: transform 0.3s ease;
+        }
+        #pattern3 .book-image:hover {
+            transform: scale(1.05);
+        }
+
+        /* 共通スタイル */
+        .lp-container {
+            display: none; /* 初期状態では非表示 */
+        }
+        .lp-container.active {
+            display: block; /* 選択されたデザインのみ表示 */
+        }
+        .purchase-button {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .purchase-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px -4px var(--main-color);
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <!-- デザイン切り替えボタン -->
+    <div class="p-4 bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto flex justify-center items-center space-x-2 sm:space-x-4">
+            <p class="text-sm sm:text-base font-bold mr-4">デザインを選択:</p>
+            <button onclick="switchDesign('pattern1')" class="design-switcher bg-pink-500 text-white font-bold py-2 px-4 rounded-full text-sm sm:text-base transition transform hover:scale-105">ポップ</button>
+            <button onclick="switchDesign('pattern2')" class="design-switcher bg-blue-600 text-white font-bold py-2 px-4 rounded-full text-sm sm:text-base transition transform hover:scale-105">クリーン</button>
+            <button onclick="switchDesign('pattern3')" class="design-switcher bg-rose-400 text-white font-bold py-2 px-4 rounded-full text-sm sm:text-base transition transform hover:scale-105">キュート</button>
+        </div>
+    </div>
+
+    <!-- ===== ランディングページ コンテンツ ===== -->
+
+    <!-- --- デザイン 1: ポップ&エネルギッシュ --- -->
+    <div id="pattern1" class="lp-container active">
+        <main class="text-center text-[var(--text-color)] py-12 px-4">
+            <div class="container mx-auto">
+                <!-- ヒーローセクション -->
+                <section class="mb-16">
+                    <h1 class="text-3xl md:text-5xl font-extrabold mb-2 pop-in" style="color: var(--main-color); text-shadow: 2px 2px 0 var(--accent-color);">もう挫折しない！</h1>
+                    <h2 class="text-4xl md:text-6xl font-extrabold mb-6 pop-in" style="transition-delay: 0.1s;">
+                        <span class="bg-[var(--accent-color)] text-white px-4 rounded-md">パブロフ流</span>で簿記3級<span class="text-[var(--main-color)]">最速</span>合格！
+                    </h2>
+                    <p class="text-lg md:text-xl mb-8 pop-in" style="transition-delay: 0.2s;">シリーズ累計300万部突破！一番やさしい、楽しい教科書がコレ！</p>
+                    <div class="flex justify-center items-center flex-col md:flex-row">
+                        <img src="LL.jpg" alt="簿記教科書 パブロフ流でみんな合格 日商簿記3級 テキスト＆問題集 2024年度版" class="w-64 md:w-80 mb-8 md:mb-0 md:mr-12 book-image rounded-lg shadow-2xl">
+                        <div class="text-left pop-in" style="transition-delay: 0.3s;">
+                            <p class="text-2xl font-bold mb-4">こんな悩み、ありませんか？</p>
+                            <ul class="space-y-2 text-lg">
+                                <li><span class="bg-[var(--main-color)] text-white rounded-full w-6 h-6 inline-flex items-center justify-center mr-2">×</span>文字ばかりで眠くなる…</li>
+                                <li><span class="bg-[var(--main-color)] text-white rounded-full w-6 h-6 inline-flex items-center justify-center mr-2">×</span>専門用語がチンプンカンプン…</li>
+                                <li><span class="bg-[var(--main-color)] text-white rounded-full w-6 h-6 inline-flex items-center justify-center mr-2">×</span>一人だと質問できなくて不安…</li>
+                            </ul>
+                            <p class="text-2xl font-bold mt-6">パブロフが<span class="text-[var(--main-color)] text-3xl">全部</span>解決します！</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 特徴セクション -->
+                <section class="mb-16">
+                    <h3 class="text-4xl font-extrabold mb-10 pop-in" style="color: var(--main-color);">合格できる<span class="bg-[var(--accent-color)] text-white px-3 rounded-md">4つの理由</span></h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                        <!-- 特徴1 -->
+                        <div class="bg-white p-6 rounded-2xl shadow-lg transform hover:-translate-y-2 transition-transform duration-300 pop-in" style="transition-delay: 0.1s;">
+                            <div class="text-5xl mb-3">🎬</div>
+                            <h4 class="text-xl font-bold mb-2" style="color: var(--main-color);">全問題に解説動画つき</h4>
+                            <p>スマホでQRコードを読み込むだけ！いつでもどこでも先生が隣にいる感覚。</p>
+                        </div>
+                        <!-- 特徴2 -->
+                        <div class="bg-white p-6 rounded-2xl shadow-lg transform hover:-translate-y-2 transition-transform duration-300 pop-in" style="transition-delay: 0.2s;">
+                            <div class="text-5xl mb-3">🐶</div>
+                            <h4 class="text-xl font-bold mb-2" style="color: var(--main-color);">4コマ漫画＆イラスト</h4>
+                            <p>難しい取引の流れも、パブロフくんの漫画で楽しく、直感的に理解できる！</p>
+                        </div>
+                        <!-- 特徴3 -->
+                        <div class="bg-white p-6 rounded-2xl shadow-lg transform hover:-translate-y-2 transition-transform duration-300 pop-in" style="transition-delay: 0.3s;">
+                            <div class="text-5xl mb-3">💡</div>
+                            <h4 class="text-xl font-bold mb-2" style="color: var(--main-color);">丁寧な解説</h4>
+                            <p>初心者がつまずきやすい「連結会計」なども、特にページを割いて手厚く解説。</p>
+                        </div>
+                        <!-- 特徴4 -->
+                        <div class="bg-white p-6 rounded-2xl shadow-lg transform hover:-translate-y-2 transition-transform duration-300 pop-in" style="transition-delay: 0.4s;">
+                            <div class="text-5xl mb-3">💬</div>
+                            <h4 class="text-xl font-bold mb-2" style="color: var(--main-color);">ブログで質問OK</h4>
+                            <p>著者が直接回答！わからない所を放置せず、スッキリ解決して次に進める。</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- CTAセクション -->
+                <section class="pop-in" style="transition-delay: 0.5s;">
+                    <p class="text-2xl font-bold mb-4">さあ、簿記学習の最高の一歩を踏み出そう！</p>
+                    <a href="https://www.shoeisha.co.jp/book/detail/9784798182001" target="_blank" class="purchase-button inline-block text-white font-bold text-2xl py-4 px-12 rounded-full" style="background-color: var(--main-color); box-shadow: 0 4px 15px -2px var(--main-color);">
+                        今すぐ購入する 🛒
+                    </a>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- --- デザイン 2: クリーン&信頼感 --- -->
+    <div id="pattern2" class="lp-container">
+        <main class="text-[var(--text-color)]" style="background-color: var(--bg-color);">
+            <div class="container mx-auto py-16 px-4">
+                <!-- ヒーローセクション -->
+                <section class="text-center mb-20">
+                    <h1 class="text-4xl md:text-5xl font-bold mb-4 fade-in-up" style="color: var(--main-color);">簿記3級合格への最短ルート</h1>
+                    <p class="text-lg md:text-xl text-gray-600 mb-8 fade-in-up" style="transition-delay: 0.1s;">「わかりやすい」をとことん追求した、一番選ばれている入門書。</p>
+                    <div class="flex flex-col md:flex-row items-center justify-center gap-12">
+                        <img src="LL.jpg" alt="テキスト＆問題集" class="w-60 md:w-72 rounded-lg shadow-xl fade-in-up" style="transition-delay: 0.2s;">
+                        <div class="text-left fade-in-up" style="transition-delay: 0.3s;">
+                            <h2 class="text-3xl font-bold mb-2">パブロフ流でみんな合格</h2>
+                            <p class="text-xl font-bold mb-4" style="color: var(--main-color);">日商簿記3級 テキスト＆問題集 2024年度版</p>
+                            <p class="text-gray-700 max-w-md">簿記の学習で、こんな壁にぶつかっていませんか？<br>パブロフ流なら、イラストや動画で楽しく学べるから、<br>最後までムリなく続けられます。</p>
+                            <a href="https://www.shoeisha.co.jp/book/detail/9784798182001" target="_blank" class="purchase-button mt-6 inline-block text-white font-bold text-xl py-3 px-10 rounded-lg" style="background-color: var(--accent-color); --main-color: var(--accent-color);">
+                                書籍の詳細・購入はこちら
+                            </a>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 特徴セクション -->
+                <section>
+                    <div class="bg-white rounded-2xl shadow-lg p-8 md:p-12">
+                        <h3 class="text-3xl font-bold text-center mb-10 fade-in-up" style="color: var(--main-color);">本書の<span class="border-b-4 border-[var(--accent-color)]">3大サポート</span></h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <!-- 特徴1&2 -->
+                            <div class="space-y-8">
+                                <div class="flex items-start gap-4 fade-in-up feature-card p-4 rounded-lg" style="transition-delay: 0.1s;">
+                                    <div class="text-4xl text-[var(--accent-color)]">❶</div>
+                                    <div>
+                                        <h4 class="text-xl font-bold mb-1" style="color: var(--main-color);">すべての問題に解説動画</h4>
+                                        <p class="text-gray-600">テキストだけでは理解しにくいポイントも、動画なら一目瞭然。学習効率が飛躍的にアップします。</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-4 fade-in-up feature-card p-4 rounded-lg" style="transition-delay: 0.2s;">
+                                    <div class="text-4xl text-[var(--accent-color)]">❷</div>
+                                    <div>
+                                        <h4 class="text-xl font-bold mb-1" style="color: var(--main-color);">4コマ漫画と豊富なイラスト</h4>
+                                        <p class="text-gray-600">複雑な取引も、身近なストーリーで解説。記憶に残りやすく、楽しく学習を続けられます。</p>
+                                    </div>
+                                </div>
+                            </div>
+                             <!-- 特徴3&4 -->
+                            <div class="space-y-8">
+                                <div class="flex items-start gap-4 fade-in-up feature-card p-4 rounded-lg" style="transition-delay: 0.3s;">
+                                    <div class="text-4xl text-[var(--accent-color)]">❸</div>
+                                    <div>
+                                        <h4 class="text-xl font-bold mb-1" style="color: var(--main-color);">苦手分野を徹底攻略</h4>
+                                        <p class="text-gray-600">多くの受験生が苦手とする分野を重点的に解説。自信を持って試験に臨めます。</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-4 fade-in-up feature-card p-4 rounded-lg" style="transition-delay: 0.4s;">
+                                    <div class="text-4xl text-[var(--accent-color)]">❹</div>
+                                    <div>
+                                        <h4 class="text-xl font-bold mb-1" style="color: var(--main-color);">購入者限定の質問ブログ</h4>
+                                        <p class="text-gray-600">学習中の疑問は著者が直接回答。万全のサポート体制で合格までを支援します。</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                         <div class="text-center mt-12 fade-in-up" style="transition-delay: 0.5s;">
+                            <a href="https://www.shoeisha.co.jp/book/detail/9784798182001" target="_blank" class="purchase-button inline-block text-white font-bold text-2xl py-4 px-16 rounded-full" style="background-color: var(--main-color);">
+                                この本で合格を目指す
+                            </a>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- --- デザイン 3: キュート&イラスト風 --- -->
+    <div id="pattern3" class="lp-container">
+        <main class="text-[var(--text-color)] py-16 px-4 overflow-hidden">
+            <div class="container mx-auto">
+                <!-- ヒーローセクション -->
+                <section class="text-center mb-16">
+                    <h1 class="text-4xl md:text-5xl font-extrabold mb-4 slide-in-left" style="font-family: 'M PLUS Rounded 1c', sans-serif; color: var(--main-color);">
+                        パブロフくんと一緒に<br>楽しく簿記3級マスター！
+                    </h1>
+                    <p class="text-lg mb-8 slide-in-right">むずかしい簿記も、この一冊なら大丈夫。やさしい言葉とイラストでスイスイわかる！</p>
+                    <div class="relative flex justify-center mb-8">
+                        <img src="LL.jpg" alt="パブロフ流 簿記3級 テキスト" class="w-64 md:w-72 book-image rounded-2xl z-10">
+                        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 md:w-96 md:h-96 rounded-full z-0" style="background-color: var(--accent-color);"></div>
+                    </div>
+                </section>
+
+                <!-- 特徴セクション -->
+                <section class="mb-16">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <!-- 特徴1 -->
+                        <div class="bg-white p-6 rounded-2xl border-2 border-dashed border-[var(--main-color)] slide-in-left" style="transition-delay: 0.1s;">
+                            <h4 class="text-2xl font-bold mb-2" style="color: var(--main-color);">🎬 全問、動画解説つき！</h4>
+                            <p>「うーん…」と悩んだら即チェック！まるでマンツーマンレッスンのよう。</p>
+                        </div>
+                        <!-- 特徴2 -->
+                        <div class="bg-white p-6 rounded-2xl border-2 border-dashed border-[var(--main-color)] slide-in-right" style="transition-delay: 0.2s;">
+                            <h4 class="text-2xl font-bold mb-2" style="color: var(--main-color);">🐶 漫画でスラスラわかる！</h4>
+                            <p>パブロフくんの4コマ漫画で、取引のイメージが具体的につかめる！</p>
+                        </div>
+                        <!-- 特徴3 -->
+                        <div class="bg-white p-6 rounded-2xl border-2 border-dashed border-[var(--main-color)] slide-in-left" style="transition-delay: 0.3s;">
+                            <h4 class="text-2xl font-bold mb-2" style="color: var(--main-color);">💡 苦手分野もこわくない！</h4>
+                            <p>つまずきやすいポイントは、図解をたっぷり使って、とことん丁寧に解説。</p>
+                        </div>
+                        <!-- 特徴4 -->
+                        <div class="bg-white p-6 rounded-2xl border-2 border-dashed border-[var(--main-color)] slide-in-right" style="transition-delay: 0.4s;">
+                            <h4 class="text-2xl font-bold mb-2" style="color: var(--main-color);">💬 著者に直接質問できる！</h4>
+                            <p>購入者特典のブログで疑問を解消！安心して学習を進められます。</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- CTAセクション -->
+                <section class="text-center">
+                    <div class="bg-white inline-block p-8 rounded-3xl shadow-xl slide-in-left" style="transition-delay: 0.5s;">
+                        <p class="text-xl font-bold mb-4">2024年度版で合格を掴もう！</p>
+                        <a href="https://www.shoeisha.co.jp/book/detail/9784798182001" target="_blank" class="purchase-button inline-block text-white font-bold text-2xl py-4 px-12 rounded-full" style="background-color: var(--main-color); --main-color: var(--main-color);">
+                            Amazonや書店で探す
+                        </a>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- フッター (共通) -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto text-center">
+            <img src="selogo600_trans.png" alt="翔泳社" class="h-12 mx-auto mb-4 bg-white p-2 rounded">
+            <p class="text-sm">&copy; 2024 Shoeisha Co., Ltd. All rights reserved.</p>
+        </div>
+    </footer>
+
+
+    <script>
+        // --- デザイン切り替え機能 ---
+        function switchDesign(designId) {
+            // すべてのコンテナを非表示にする
+            document.querySelectorAll('.lp-container').forEach(container => {
+                container.classList.remove('active');
+            });
+            // 選択されたコンテナを表示する
+            document.getElementById(designId).classList.add('active');
+        }
+
+        // --- スクロールアニメーション ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                }
+            });
+        }, {
+            threshold: 0.1 // 10%見えたら発火
+        });
+
+        // アニメーションさせたい要素をすべて選択
+        const animatedElements = document.querySelectorAll('.pop-in, .fade-in-up, .slide-in-left, .slide-in-right');
+        animatedElements.forEach(el => observer.observe(el));
+        
+        // 初期状態で最初のデザインを表示
+        document.addEventListener('DOMContentLoaded', () => {
+            switchDesign('pattern1');
+        });
+    </script>
+</body>
+</html>
