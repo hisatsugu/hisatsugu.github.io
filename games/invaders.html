@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>スペースインベーダー</title>
+    <title>レトロゲーム2</title>
     <style>
         body {
             margin: 0;
@@ -125,7 +125,7 @@
             <button id="restartButton">もう一度プレイ</button>
         </div>
         <div id="startScreen">
-            <h1>スペースインベーダー</h1>
+            <h1>レトロゲーム2</h1>
             <p>左右キーで移動、スペースキーで射撃</p>
             <button id="startButton">ゲーム開始</button>
         </div>
@@ -206,7 +206,7 @@
             clearInterval(bgmInterval);
         }
         
-        // インベーダー初期化
+        // 初期化
         function initInvaders() {
             invaders = [];
             const rows = 5;
@@ -391,7 +391,7 @@
             bullets = bullets.filter(bullet => {
                 bullet.y -= bullet.speed;
                 
-                // インベーダーとの衝突判定
+                // 衝突判定
                 let hit = false;
                 invaders.forEach(invader => {
                     if (invader.alive && checkCollision(bullet, invader)) {
